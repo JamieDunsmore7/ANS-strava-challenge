@@ -171,6 +171,15 @@ main{max-width:1080px;margin:0 auto;padding:8px 22px 80px}
 .row .r-val small{font-size:11px;color:#8a7f66;font-weight:400;margin-left:2px}
 .top1 .r-val{color:var(--coral)}
 
+/* records view: 4-col layout with a Week column */
+.board-head.rec,.row.rec{grid-template-columns:44px 1fr auto auto;gap:12px}
+.row.rec .wk{
+  font-family:'Spline Sans Mono',monospace;font-size:12.5px;font-weight:500;
+  color:var(--sea);background:rgba(29,106,115,.10);
+  padding:3px 10px;border-radius:100px;white-space:nowrap;justify-self:end;
+}
+.board-head.rec .wk-h{text-align:right}
+
 /* toggle for board metric on weekly view */
 .board-tabs{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
 .board-tabs button{
@@ -209,7 +218,7 @@ main{max-width:1080px;margin:0 auto;padding:8px 22px 80px}
 <header class="masthead">
   <div class="eyebrow">MIT ANS · Run · Swim · Cycle · Row</div>
   <h1 class="wordmark">Summer <em>Strava</em><br>Challenge</h1>
-  <p class="subtitle">A season-long contest of legs, lungs &amp; latitude</p>
+  <p class="subtitle">Brought to you by the American Nuclear Society</p>
 </header>
 <div class="rule"></div>
 
@@ -226,7 +235,7 @@ main{max-width:1080px;margin:0 auto;padding:8px 22px 80px}
 </main>
 
 <div class="foot">
-  MIT ANS Summer Strava Challenge · updated weekly · times for running &amp; cycling derived from pace &amp; speed
+  MIT ANS Summer Strava Challenge
 </div>
 
 <script src="data.js"></script>
@@ -267,6 +276,33 @@ function weekRecord(metricFn){
   return best;
 }
 
+// flatten every athlete-week into individual performances, ranked by a metric.
+// each entry: {name, val, week}
+function bestWeeks(metricFn){
+  const out=[];
+  realWeeks().forEach(w=>{
+    w.athletes.forEach(a=>{
+      const v=metricFn(a);
+      if(v>0) out.push({name:a.name, val:v, week:w.label});
+    });
+  });
+  return out.sort((a,b)=>b.val-a.val);
+}
+
+// row renderer WITH a week column (for the single-week-record view)
+function recordRows(list, fmt, unit){
+  if(!list.length) return `<div class="empty">No data yet</div>`;
+  return list.map((e,i)=>{
+    const cls = i===0?"top1":i===1?"top2":i===2?"top3":"";
+    return `<div class="row rec ${cls}">
+      <span class="rank">${i+1}</span>
+      <span class="nm">${e.name}</span>
+      <span class="wk">${e.week}</span>
+      <span class="r-val">${fmt(e.val)}<small>${unit}</small></span>
+    </div>`;
+  }).join("");
+}
+
 function champCard(cls,cat,medal,name,valHtml,when){
   if(!name) return `<div class="champ ${cls}"><div class="cat">${cat}</div><div class="empty" style="padding:10px 0">Awaiting the first real week</div></div>`;
   return `<div class="champ ${cls}"><span class="medal">${medal}</span>
@@ -296,14 +332,14 @@ function render(){
 
   if(pick==="total"){
     if(!realWeeks().length){
-      note.innerHTML=`The season hasn't started yet`;
+      note.innerHTML=`The summer hasn't started yet`;
       champs.innerHTML=`
-        <div class="section-label">Season Champions</div>
+        <div class="section-label">Summer Champions</div>
         <div class="board" style="margin-top:18px">
           <div class="empty" style="padding:38px 24px;line-height:1.7">
             <div style="font-size:34px;margin-bottom:8px">🏁</div>
             The starting gun hasn't fired. Once Week 1's numbers are in,<br>
-            season totals and record-holders appear here.<br><br>
+            summer totals and record-holders appear here.<br><br>
             <span style="font-size:14px">Meanwhile, pick <b>Week 0 (example)</b> from the menu<br>to see how the standings will look.</span>
           </div>
         </div>`;
@@ -316,17 +352,13 @@ function render(){
     const runBoard=[...agg].filter(a=>a.run_mi>0).sort((a,b)=>b.run_mi-a.run_mi);
     const timeBoard=[...agg].filter(a=>a.time_sec>0).sort((a,b)=>b.time_sec-a.time_sec);
 
-    const runRec=weekRecord(a=>a.run_mi);
-    const timeRec=weekRecord(a=>a.time_sec);
     const runLeader=runBoard[0], timeLeader=timeBoard[0];
 
     champs.innerHTML=`
-      <div class="section-label">Season Champions</div>
+      <div class="section-label">Summer Champions</div>
       <div class="champ-grid">
         ${champCard("run","Most Distance Run · total","🏃",runLeader?runLeader.name:null,runLeader?`<b>${fmtMi(runLeader.run_mi)}</b> mi`:"", "")}
         ${champCard("time","Most Time · total","⏱️",timeLeader?timeLeader.name:null,timeLeader?`<b>${fmtT(timeLeader.time_sec)}</b>`:"", "run·swim·cycle·row")}
-        ${champCard("wrun","Biggest Week · distance","📅",runRec?runRec.name:null,runRec?`<b>${fmtMi(runRec.v)}</b> mi`:"", runRec?runRec.week:"")}
-        ${champCard("wtime","Biggest Week · time","📅",timeRec?timeRec.name:null,timeRec?`<b>${fmtT(timeRec.v)}</b>`:"", timeRec?timeRec.week:"")}
       </div>`;
 
     boards.innerHTML=`
@@ -347,11 +379,58 @@ function render(){
           </div>
         </div>
       </div>`;
+  } else if(pick==="records"){
+    // Most in a single week — all-athlete records, with Week column
+    if(!realWeeks().length){
+      note.innerHTML=`The summer hasn't started yet`;
+      champs.innerHTML=`
+        <div class="section-label">Biggest Single Weeks</div>
+        <div class="board" style="margin-top:18px">
+          <div class="empty" style="padding:38px 24px;line-height:1.7">
+            <div style="font-size:34px;margin-bottom:8px">📅</div>
+            Single-week records appear once real weeks are in.<br>
+            <span style="font-size:14px">Pick <b>Week 0 (example)</b> to preview the layout.</span>
+          </div>
+        </div>`;
+      boards.innerHTML="";
+      return;
+    }
+    note.innerHTML=`Best single week by any athlete · Week 0 excluded`;
+
+    const runWeeks=bestWeeks(a=>a.run_mi);
+    const timeWeeks=bestWeeks(a=>a.time_sec);
+    const runTop=runWeeks[0], timeTop=timeWeeks[0];
+
+    champs.innerHTML=`
+      <div class="section-label">Record Holders</div>
+      <div class="champ-grid">
+        ${champCard("wrun","Biggest Week · distance","🏅",runTop?runTop.name:null,runTop?`<b>${fmtMi(runTop.val)}</b> mi`:"", runTop?runTop.week:"")}
+        ${champCard("wtime","Biggest Week · time","🏅",timeTop?timeTop.name:null,timeTop?`<b>${fmtT(timeTop.val)}</b>`:"", timeTop?timeTop.week:"")}
+      </div>`;
+
+    boards.innerHTML=`
+      <div class="section-label">Top Single-Week Performances</div>
+      <div class="two-col">
+        <div>
+          <div class="col-title"><span class="ic">🏃</span> Distance Run — best weeks</div>
+          <div class="board">
+            <div class="board-head rec"><span>#</span><span>Athlete</span><span class="wk-h">Week</span><span class="r-val">Miles</span></div>
+            ${recordRows(runWeeks,v=>fmtMi(v),"mi")}
+          </div>
+        </div>
+        <div>
+          <div class="col-title"><span class="ic">⏱️</span> Time — best weeks</div>
+          <div class="board">
+            <div class="board-head rec"><span>#</span><span>Athlete</span><span class="wk-h">Week</span><span class="r-val">Time</span></div>
+            ${recordRows(timeWeeks,v=>fmtT(v),"")}
+          </div>
+        </div>
+      </div>`;
   } else {
     // single week view
     const w=WEEKS[+pick];
     note.innerHTML = w.example
-      ? `Example week · not counted in season totals`
+      ? `Example week · not counted in summer totals`
       : `Single-week view`;
     const runBoard=[...w.athletes].filter(a=>a.run_mi>0).sort((a,b)=>b.run_mi-a.run_mi);
     const timeBoard=[...w.athletes].filter(a=>a.time_sec>0).sort((a,b)=>b.time_sec-a.time_sec);
@@ -388,8 +467,11 @@ function render(){
 (function init(){
   const sel=document.getElementById("weekPick");
   const optTotal=document.createElement("option");
-  optTotal.value="total"; optTotal.textContent="🏆 Season Total";
+  optTotal.value="total"; optTotal.textContent="🏆 Summer Total";
   sel.appendChild(optTotal);
+  const optRec=document.createElement("option");
+  optRec.value="records"; optRec.textContent="📅 Biggest Single Week";
+  sel.appendChild(optRec);
   WEEKS.forEach((w,i)=>{
     const o=document.createElement("option");
     o.value=String(i);
@@ -397,7 +479,7 @@ function render(){
     sel.appendChild(o);
   });
   // default: if no real weeks yet, show the example week so the page
-  // looks populated; otherwise open on Season Total.
+  // looks populated; otherwise open on Summer Total.
   sel.value = realWeeks().length ? "total" : "0";
   render();
 })();

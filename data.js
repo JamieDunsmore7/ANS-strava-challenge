@@ -68,6 +68,28 @@ const WEEKS = [
     ]
   }
 
+  ,{
+    label: "Week 2",
+    athletes: [
+      { name: "Abby Feyrer",       run_mi: 40.58,  swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 21353 },
+      { name: "Bryan Foo",         run_mi: 19.45,  swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 11769 },
+      { name: "Grace Qiu",         run_mi: 16.71,  swim_mi: 0,     cycle_mi: 0,      row_mi: 23.98, time_sec: 30469 },
+      { name: "Jiyun Han",         run_mi: 14.98,  swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 8676 },
+      { name: "Leo Murphy",        run_mi: 13.48,  swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 8441 },
+      { name: "Greta Hibbard",     run_mi: 13.17,  swim_mi: 3.23,  cycle_mi: 8.08,   row_mi: 0,     time_sec: 16671 },
+      { name: "Pavel Shilenko",    run_mi: 12.18,  swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 6115 },
+      { name: "Taylor Hampson",    run_mi: 12.05,  swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 5704 },
+      { name: "Xavior Wang",       run_mi: 10.07,  swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 7322 },
+      { name: "Brandon Aranda",    run_mi: 8.45,   swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 4910 },
+      { name: "Alessandro Persico",run_mi: 7.83,   swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 4183 },
+      { name: "Antoine Lucas",     run_mi: 5.1,    swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 2772 },
+      { name: "Youyeon Choi",      run_mi: 3.73,   swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 2382 },
+      { name: "Alina Jugan",       run_mi: 2.49,   swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 1800 },
+      { name: "Petr Červenka",     run_mi: 0,      swim_mi: 0,     cycle_mi: 70.28,  row_mi: 0,     time_sec: 15720 },
+      { name: "Grégoire Biot",     run_mi: 0,      swim_mi: 1.24,  cycle_mi: 40.39,  row_mi: 0,     time_sec: 12785 }
+    ]
+  }
+
   /* ---- To add the first real week, uncomment and fill in: ----
   ,{
     label: "Week 1",

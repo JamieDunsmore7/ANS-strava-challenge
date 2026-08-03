@@ -112,6 +112,26 @@ const WEEKS = [
     ]
   }
 
+  ,{
+    label: "Week 4",
+    athletes: [
+      { name: "Greta Hibbard", run_mi: 21.75,  swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 13755 },
+      { name: "Jiyun Han",     run_mi: 21.75,  swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 12530 },
+      { name: "Antoine Lucas", run_mi: 19.82,  swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 11101 },
+      { name: "Grace Qiu",     run_mi: 14.17,  swim_mi: 0.99,  cycle_mi: 27.15,  row_mi: 6.4,   time_sec: 24208 },
+      { name: "Leo Murphy",    run_mi: 13.42,  swim_mi: 0,     cycle_mi: 6.28,   row_mi: 0,     time_sec: 9772 },
+      { name: "Taylor Hampson",run_mi: 12.8,   swim_mi: 1.3,   cycle_mi: 4.04,   row_mi: 0,     time_sec: 10810 },
+      { name: "Bryan Foo",     run_mi: 10.56,  swim_mi: 0,     cycle_mi: 7.27,   row_mi: 0,     time_sec: 8898 },
+      { name: "Abi k",         run_mi: 7.33,   swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 3929 },
+      { name: "Jamie Dunsmore",run_mi: 5.97,   swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 3350 },
+      { name: "Grégoire Biot", run_mi: 5.03,   swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 2859 },
+      { name: "Pavel Shilenko",run_mi: 4.41,   swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 2073 },
+      { name: "Youyeon Choi",  run_mi: 3.11,   swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 2255 },
+      { name: "Brandon Aranda",run_mi: 0.93,   swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 556 },
+      { name: "Petr Červenka", run_mi: 0,      swim_mi: 1.24,  cycle_mi: 56.54,  row_mi: 0,     time_sec: 17421 }
+    ]
+  }
+
   /* ---- To add the first real week, uncomment and fill in: ----
   ,{
     label: "Week 1",

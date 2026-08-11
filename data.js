@@ -131,14 +131,25 @@ const WEEKS = [
       { name: "Petr Červenka", run_mi: 0,      swim_mi: 1.24,  cycle_mi: 56.54,  row_mi: 0,     time_sec: 17421 }
     ]
   }
-
-  /* ---- To add the first real week, uncomment and fill in: ----
   ,{
-    label: "Week 1",
+    label: "Week 5",
     athletes: [
-      { name: "Bryan Foo", run_mi: 0, swim_mi: 0, cycle_mi: 0, row_mi: 0, time_sec: 0 }
-      // ...one line per athlete
+      { name: "Abby Feyrer",       run_mi: 31.75,  swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 17885 },
+      { name: "Grace Qiu",         run_mi: 9.51,   swim_mi: 0,     cycle_mi: 0,      row_mi: 11.43, time_sec: 12700 },
+      { name: "Taylor Hampson",    run_mi: 9.44,   swim_mi: 1.55,  cycle_mi: 27.71,  row_mi: 0,     time_sec: 14926 },
+      { name: "Jamie Dunsmore",    run_mi: 6.46,   swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 2465 },
+      { name: "Leo Murphy",        run_mi: 5.97,   swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 3936 },
+      { name: "Grégoire Biot",     run_mi: 5.9,    swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 3325 },
+      { name: "Antoine Lucas",     run_mi: 5.47,   swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 3080 },
+      { name: "Brandon Aranda",    run_mi: 4.1,    swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 2244 },
+      { name: "Jiyun Han",         run_mi: 3.98,   swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 2515 },
+      { name: "Olivia Stinson",    run_mi: 3.67,   swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 2738 },
+      { name: "Greta Hibbard",     run_mi: 3.23,   swim_mi: 0.75,  cycle_mi: 31.69,  row_mi: 0,     time_sec: 14607 },
+      { name: "Alessandro Persico",run_mi: 3.23,   swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 2491 },
+      { name: "Youyeon Choi",      run_mi: 3.23,   swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 2205 },
+      { name: "Bryan Foo",         run_mi: 2.05,   swim_mi: 0,     cycle_mi: 0,      row_mi: 0,     time_sec: 1234 },
+      { name: "Petr Červenka",     run_mi: 0,      swim_mi: 1.18,  cycle_mi: 56.36,  row_mi: 0,     time_sec: 17392 },
+      { name: "Abi k",             run_mi: 0,      swim_mi: 0,     cycle_mi: 7.95,   row_mi: 0,     time_sec: 2451 }
     ]
   }
-  */
 ];

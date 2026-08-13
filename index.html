@@ -575,7 +575,7 @@ function render(){
       </div>`;
   } else if(pick==="versus"){
     // NSE vs AeroAstro — competition weeks only
-    note.innerHTML = `Total time (all sports) decides it · Weeks 6–8`;
+    note.innerHTML = ``;
     const cw=loadedCompWeeks();
     if(!cw.length){
       champs.innerHTML=`
@@ -646,9 +646,13 @@ function render(){
     o.textContent=w.label+(w.example?" (example)":"");
     sel.appendChild(o);
   });
-  // default: if no real weeks yet, show the example week so the page
-  // looks populated; otherwise open on Summer Total.
-  sel.value = realWeeks().length ? "total" : "0";
+  // default landing view:
+  //  • once NSE-vs-AeroAstro competition weeks have data -> open on that (front page)
+  //  • else if real weeks exist -> Summer Total
+  //  • else (pre-season) -> the Week 0 example so the page looks populated
+  sel.value = loadedCompWeeks().length ? "versus"
+            : realWeeks().length ? "total"
+            : "0";
   render();
 })();
 </script>

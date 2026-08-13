@@ -211,6 +211,65 @@ main{max-width:1080px;margin:0 auto;padding:8px 22px 80px}
   vertical-align:middle;
 }
 .empty{padding:26px 18px;text-align:center;color:#8a7f66;font-style:italic;font-family:'Instrument Serif',serif;font-size:16px}
+
+/* ---- NSE vs AeroAstro versus view ---- */
+.vs-scoreboard{
+  border:2.5px solid var(--ink);border-radius:16px;overflow:hidden;
+  box-shadow:5px 5px 0 var(--ink);background:var(--paper);margin-top:18px;
+}
+.vs-head{
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  background:var(--ink);color:var(--paper);padding:16px 20px;gap:12px;
+}
+.vs-team{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(16px,3vw,22px);letter-spacing:-.01em}
+.vs-team.nse{text-align:left;color:var(--sun)}
+.vs-team.aero{text-align:right;color:#7fb5d6}
+.vs-team .emoji{font-size:1.1em}
+.vs-mid{font-family:'Instrument Serif',serif;font-style:italic;font-size:15px;color:var(--paper);opacity:.7;padding:0 6px}
+.vs-winner{
+  text-align:center;padding:12px 16px;background:rgba(233,161,59,.14);
+  border-bottom:2px solid var(--line);font-family:'Bricolage Grotesque',sans-serif;
+  font-weight:700;font-size:14px;color:var(--ink);
+}
+.vs-winner .lead-team{color:var(--sea)}
+/* sport rows: NSE(dist,time) | label | AeroAstro(dist,time) */
+.vs-row{
+  display:grid;grid-template-columns:1fr 1fr 96px 1fr 1fr;
+  align-items:center;border-top:1.5px solid var(--line);
+}
+.vs-row:nth-child(even){background:rgba(26,36,56,.03)}
+.vs-row .cell{padding:11px 10px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15px;text-align:center}
+.vs-row .cell small{font-size:10px;color:#8a7f66;font-weight:400;display:block;margin-top:1px}
+.vs-row .sport{
+  text-align:center;font-family:'Spline Sans Mono',monospace;font-size:11px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--sea);
+  background:rgba(29,106,115,.07);padding:11px 4px;
+}
+.vs-row .sport .ic{display:block;font-size:16px;margin-bottom:2px}
+.vs-row .nse-side{color:var(--ink)}
+.vs-row .aero-side{color:var(--ink)}
+.vs-row.win-nse .nse-side{background:rgba(233,161,59,.16)}
+.vs-row.win-aero .aero-side{background:rgba(127,181,214,.18)}
+.vs-colhead{
+  display:grid;grid-template-columns:1fr 1fr 96px 1fr 1fr;
+  background:rgba(26,36,56,.05);border-top:1.5px solid var(--line);
+}
+.vs-colhead span{padding:7px 10px;text-align:center;font-family:'Spline Sans Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#8a7f66}
+.vs-total{
+  display:grid;grid-template-columns:1fr 1fr 96px 1fr 1fr;
+  align-items:center;border-top:2.5px solid var(--ink);background:var(--ink);color:var(--paper);
+}
+.vs-total .cell{padding:13px 10px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:17px;text-align:center;color:var(--paper)}
+.vs-total .cell small{color:rgba(244,234,213,.6)}
+.vs-total .sport{background:transparent;color:var(--sun);padding:13px 4px;font-size:11px;text-align:center;font-family:'Spline Sans Mono',monospace;font-weight:600;letter-spacing:.06em}
+.vs-total .cell.win{color:var(--sun)}
+@media(max-width:640px){
+  .vs-row,.vs-colhead,.vs-total{grid-template-columns:1fr 1fr 64px 1fr 1fr}
+  .vs-row .cell,.vs-total .cell{font-size:12px;padding:9px 4px}
+  .vs-row .sport{font-size:9px}
+  .vs-row .cell small{font-size:9px}
+}
+
 </style>
 </head>
 <body>
@@ -252,14 +311,19 @@ function fmtT(sec){
 }
 const realWeeks = () => WEEKS.filter(w=>!w.example);
 
+// total time (all sports) for a raw athlete object with per-sport *_sec fields
+function totSec(a){ return (a.run_sec||0)+(a.swim_sec||0)+(a.cycle_sec||0)+(a.row_sec||0); }
+
 // aggregate a list of week objects into per-athlete totals
 function aggregate(weeks){
   const map={};
   weeks.forEach(w=>w.athletes.forEach(a=>{
-    if(!map[a.name]) map[a.name]={name:a.name,run_mi:0,swim_mi:0,cycle_mi:0,row_mi:0,time_sec:0};
+    if(!map[a.name]) map[a.name]={name:a.name,run_mi:0,swim_mi:0,cycle_mi:0,row_mi:0,
+      run_sec:0,swim_sec:0,cycle_sec:0,row_sec:0,time_sec:0};
     const m=map[a.name];
-    m.run_mi+=a.run_mi||0; m.swim_mi+=a.swim_mi||0; m.cycle_mi+=a.cycle_mi||0;
-    m.row_mi+=a.row_mi||0; m.time_sec+=a.time_sec||0;
+    m.run_mi+=a.run_mi||0; m.swim_mi+=a.swim_mi||0; m.cycle_mi+=a.cycle_mi||0; m.row_mi+=a.row_mi||0;
+    m.run_sec+=a.run_sec||0; m.swim_sec+=a.swim_sec||0; m.cycle_sec+=a.cycle_sec||0; m.row_sec+=a.row_sec||0;
+    m.time_sec+=totSec(a);
   }));
   return Object.values(map);
 }
@@ -287,6 +351,89 @@ function bestWeeks(metricFn){
     });
   });
   return out.sort((a,b)=>b.val-a.val);
+}
+
+// ---- NSE vs AeroAstro helpers ----
+const AERO = (typeof AEROASTRO !== "undefined") ? AEROASTRO : [];
+const COMP_WEEKS = (typeof COMPETITION_WEEKS !== "undefined") ? COMPETITION_WEEKS : [];
+function teamOf(name){ return AERO.includes(name) ? "aero" : "nse"; }
+
+// competition weeks that actually have data loaded
+function loadedCompWeeks(){
+  return WEEKS.filter(w=>COMP_WEEKS.includes(w.label));
+}
+
+// per-sport totals for one team across a set of weeks
+// returns {run:{mi,sec}, swim:{...}, cycle:{...}, row:{...}, totalSec}
+function teamTotals(weeks, team){
+  const z=()=>({mi:0,sec:0});
+  const t={run:z(),swim:z(),cycle:z(),row:z(),totalSec:0};
+  weeks.forEach(w=>w.athletes.forEach(a=>{
+    if(teamOf(a.name)!==team) return;
+    t.run.mi+=a.run_mi||0;   t.run.sec+=a.run_sec||0;
+    t.swim.mi+=a.swim_mi||0; t.swim.sec+=a.swim_sec||0;
+    t.cycle.mi+=a.cycle_mi||0; t.cycle.sec+=a.cycle_sec||0;
+    t.row.mi+=a.row_mi||0;   t.row.sec+=a.row_sec||0;
+    t.totalSec+=totSec(a);
+  }));
+  return t;
+}
+
+// render one NSE-vs-AeroAstro scoreboard for a given set of weeks
+function vsScoreboard(weeks, title){
+  const nse=teamTotals(weeks,"nse");
+  const aero=teamTotals(weeks,"aero");
+  const sports=[["run","🏃","Running"],["swim","🏊","Swimming"],["cycle","🚴","Cycling"],["row","🚣","Rowing"]];
+
+  const rows=sports.map(([key,ic,label])=>{
+    const nMi=nse[key].mi, aMi=aero[key].mi, nSec=nse[key].sec, aSec=aero[key].sec;
+    const winCls = nSec>aSec ? "win-nse" : aSec>nSec ? "win-aero" : "";
+    return `<div class="vs-row ${winCls}">
+      <span class="cell nse-side">${fmtMi(nMi)}<small>mi</small></span>
+      <span class="cell nse-side">${nSec?fmtT(nSec):"—"}<small>time</small></span>
+      <span class="sport"><span class="ic">${ic}</span>${label}</span>
+      <span class="cell aero-side">${fmtMi(aMi)}<small>mi</small></span>
+      <span class="cell aero-side">${aSec?fmtT(aSec):"—"}<small>time</small></span>
+    </div>`;
+  }).join("");
+
+  const nWin = nse.totalSec>aero.totalSec, aWin = aero.totalSec>nse.totalSec;
+  let winnerLine;
+  if(nse.totalSec===0 && aero.totalSec===0){
+    winnerLine=`<div class="vs-winner">No data yet${title?" for "+title:""}</div>`;
+  } else {
+    const leadTeam = nWin?"⚛️ NSE":aWin?"🚀 AeroAstro":"Tied";
+    const diff=Math.abs(nse.totalSec-aero.totalSec);
+    winnerLine = `<div class="vs-winner">${
+      leadTeam==="Tied" ? "Dead heat on total time!" :
+      `<span class="lead-team">${leadTeam}</span> leads by ${fmtT(diff)} of total time`
+    }</div>`;
+  }
+
+  const nseAllMi=nse.run.mi+nse.swim.mi+nse.cycle.mi+nse.row.mi;
+  const aeroAllMi=aero.run.mi+aero.swim.mi+aero.cycle.mi+aero.row.mi;
+
+  return `
+    ${title?`<div class="section-label">${title}</div>`:""}
+    <div class="vs-scoreboard">
+      <div class="vs-head">
+        <span class="vs-team nse"><span class="emoji">⚛️</span> NSE</span>
+        <span class="vs-mid">vs</span>
+        <span class="vs-team aero">AeroAstro <span class="emoji">🚀</span></span>
+      </div>
+      ${winnerLine}
+      <div class="vs-colhead">
+        <span>Dist</span><span>Time</span><span>Sport</span><span>Dist</span><span>Time</span>
+      </div>
+      ${rows}
+      <div class="vs-total">
+        <span class="cell ${nWin?'win':''}">${fmtMi(nseAllMi)}<small>mi all</small></span>
+        <span class="cell ${nWin?'win':''}">${fmtT(nse.totalSec)}<small>total</small></span>
+        <span class="sport">TOTAL</span>
+        <span class="cell ${aWin?'win':''}">${fmtMi(aeroAllMi)}<small>mi all</small></span>
+        <span class="cell ${aWin?'win':''}">${fmtT(aero.totalSec)}<small>total</small></span>
+      </div>
+    </div>`;
 }
 
 // row renderer WITH a week column (for the single-week-record view)
@@ -398,7 +545,7 @@ function render(){
     note.innerHTML=`Best single week by any athlete · Week 0 excluded`;
 
     const runWeeks=bestWeeks(a=>a.run_mi);
-    const timeWeeks=bestWeeks(a=>a.time_sec);
+    const timeWeeks=bestWeeks(a=>totSec(a));
     const runTop=runWeeks[0], timeTop=timeWeeks[0];
 
     champs.innerHTML=`
@@ -426,6 +573,24 @@ function render(){
           </div>
         </div>
       </div>`;
+  } else if(pick==="versus"){
+    // NSE vs AeroAstro — competition weeks only
+    note.innerHTML = `Total time (all sports) decides it · Weeks 6–8`;
+    const cw=loadedCompWeeks();
+    if(!cw.length){
+      champs.innerHTML=`
+        <div class="section-label">⚛️ NSE vs 🚀 AeroAstro</div>
+        <div class="vs-scoreboard"><div class="empty" style="padding:38px 24px;line-height:1.7">
+          <div style="font-size:34px;margin-bottom:8px">⚛️ 🆚 🚀</div>
+          The department showdown begins in <b>Week 6</b>.<br>
+          <span style="font-size:14px">Overall and weekly scoreboards will appear here once Week 6 lands.</span>
+        </div></div>`;
+      boards.innerHTML="";
+      return;
+    }
+    // overall across all loaded competition weeks, then each week
+    champs.innerHTML = vsScoreboard(cw, "Overall — "+cw.map(w=>w.label).join(" + "));
+    boards.innerHTML = cw.map(w=>vsScoreboard([w], w.label)).join("");
   } else {
     // single week view
     const w=WEEKS[+pick];
@@ -433,7 +598,7 @@ function render(){
       ? `Example week · not counted in summer totals`
       : `Single-week view`;
     const runBoard=[...w.athletes].filter(a=>a.run_mi>0).sort((a,b)=>b.run_mi-a.run_mi);
-    const timeBoard=[...w.athletes].filter(a=>a.time_sec>0).sort((a,b)=>b.time_sec-a.time_sec);
+    const timeBoard=[...w.athletes].map(a=>({...a,time_sec:totSec(a)})).filter(a=>a.time_sec>0).sort((a,b)=>b.time_sec-a.time_sec);
 
     champs.innerHTML=`
       <div class="section-label">${w.label} — Top Efforts ${w.example?'<span class="pill">example</span>':""}</div>
@@ -472,6 +637,9 @@ function render(){
   const optRec=document.createElement("option");
   optRec.value="records"; optRec.textContent="📅 Biggest Single Week";
   sel.appendChild(optRec);
+  const optVs=document.createElement("option");
+  optVs.value="versus"; optVs.textContent="⚛️ NSE vs 🚀 AeroAstro";
+  sel.appendChild(optVs);
   WEEKS.forEach((w,i)=>{
     const o=document.createElement("option");
     o.value=String(i);

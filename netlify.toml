@@ -1,0 +1,11 @@
+# Netlify configuration for MIT ANS Summer Strava Challenge
+# Static site — no build step needed, just serve the files as-is.
+
+[build]
+  publish = "."
+  command = ""
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

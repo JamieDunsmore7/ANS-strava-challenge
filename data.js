@@ -146,6 +146,29 @@ const WEEKS = [
       { name: "Abi k", run_mi: 0, swim_mi: 0, cycle_mi: 7.95, row_mi: 0, run_sec: 0, swim_sec: 0, cycle_sec: 2451, row_sec: 0 }
     ]
   }
+  ,{
+    label: "Week 6",
+    athletes: [
+      { name: "Abby Feyrer",       run_mi: 44.74, swim_mi: 0, cycle_mi: 0, row_mi: 0, run_sec: 24192, swim_sec: 0, cycle_sec: 0, row_sec: 0 },
+      { name: "Greta Hibbard",     run_mi: 28.71, swim_mi: 1.55, cycle_mi: 0, row_mi: 0, run_sec: 15569, swim_sec: 2760, cycle_sec: 0, row_sec: 0 },
+      { name: "Jiyun Han",         run_mi: 21.81, swim_mi: 0, cycle_mi: 0, row_mi: 0, run_sec: 12776, swim_sec: 0, cycle_sec: 0, row_sec: 0 },
+      { name: "Konstantin Bauer",  run_mi: 14.98, swim_mi: 0, cycle_mi: 0, row_mi: 0, run_sec: 9664, swim_sec: 0, cycle_sec: 0, row_sec: 0 },
+      { name: "Taylor Hampson",    run_mi: 11.12, swim_mi: 1.49, cycle_mi: 0, row_mi: 0, run_sec: 5764, swim_sec: 3120, cycle_sec: 0, row_sec: 0 },
+      { name: "Grace Qiu",         run_mi: 10.13, swim_mi: 0, cycle_mi: 0, row_mi: 5.53, run_sec: 5950, swim_sec: 0, cycle_sec: 0, row_sec: 4440 },
+      { name: "Jamie Dunsmore",    run_mi: 9.38, swim_mi: 0, cycle_mi: 0, row_mi: 0, run_sec: 4696, swim_sec: 0, cycle_sec: 0, row_sec: 0 },
+      { name: "Lucy Greenup",      run_mi: 8.26, swim_mi: 0.62, cycle_mi: 9.44, row_mi: 0, run_sec: 3950, swim_sec: 780, cycle_sec: 2198, row_sec: 0 },
+      { name: "Youyeon Choi",      run_mi: 6.71, swim_mi: 0, cycle_mi: 0, row_mi: 0, run_sec: 4471, swim_sec: 0, cycle_sec: 0, row_sec: 0 },
+      { name: "Abi k",             run_mi: 5.16, swim_mi: 0, cycle_mi: 0, row_mi: 0, run_sec: 2681, swim_sec: 0, cycle_sec: 0, row_sec: 0 },
+      { name: "Antoine Lucas",     run_mi: 5.03, swim_mi: 0, cycle_mi: 0, row_mi: 0, run_sec: 2519, swim_sec: 0, cycle_sec: 0, row_sec: 0 },
+      { name: "Alessandro Persico",run_mi: 4.78, swim_mi: 0, cycle_mi: 0, row_mi: 0, run_sec: 2572, swim_sec: 0, cycle_sec: 0, row_sec: 0 },
+      { name: "Brandon Aranda",    run_mi: 4.6, swim_mi: 0.43, cycle_mi: 0, row_mi: 0, run_sec: 2642, swim_sec: 540, cycle_sec: 0, row_sec: 0 },
+      { name: "Leo Murphy",        run_mi: 3.98, swim_mi: 0, cycle_mi: 0, row_mi: 0, run_sec: 2253, swim_sec: 0, cycle_sec: 0, row_sec: 0 },
+      { name: "Jack Granat",       run_mi: 3.17, swim_mi: 0, cycle_mi: 0, row_mi: 0, run_sec: 1510, swim_sec: 0, cycle_sec: 0, row_sec: 0 },
+      { name: "Bryan Foo",         run_mi: 0.99, swim_mi: 0, cycle_mi: 0, row_mi: 0, run_sec: 525, swim_sec: 0, cycle_sec: 0, row_sec: 0 },
+      { name: "Petr Červenka",     run_mi: 0, swim_mi: 0.87, cycle_mi: 25.17, row_mi: 0, run_sec: 0, swim_sec: 2340, cycle_sec: 8055, row_sec: 0 },
+      { name: "Grégoire Biot",     run_mi: 0, swim_mi: 0.37, cycle_mi: 0, row_mi: 0, run_sec: 0, swim_sec: 840, cycle_sec: 0, row_sec: 0 }
+    ]
+  }
 ];
 
 /* ============================================================
